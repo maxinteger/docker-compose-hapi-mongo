@@ -1,0 +1,15 @@
+webapp:
+  build: ./web
+  expose:
+   - "3000"
+  ports:
+   - "80:3000"
+  volumes:
+   - ./web:/usr/src/app/:rw
+  env_file: .env
+  command: npm start
+
+db:
+  image: mongo
+  ports:
+   - "27017:27017"

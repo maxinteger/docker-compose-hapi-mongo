@@ -1,0 +1,17 @@
+web:
+  extends:
+    file: compose-common.yml
+    service: webapp
+  ports:
+   - "3000:3000"
+  environment:
+   - DEBUG=1
+   - NODE_ENV=development
+  command: npm run dev
+  links:
+   - db
+
+db:
+  extends:
+    file: compose-common.yml
+    service: db

@@ -1,6 +1,6 @@
 web:
   extends:
-    file: compose-common.yml
+    file: dc-common.yml
     service: webapp
   ports:
    - "3000:3000"
@@ -13,5 +13,5 @@ web:
 
 db:
   extends:
-    file: compose-common.yml
+    file: dc-common.yml
     service: db

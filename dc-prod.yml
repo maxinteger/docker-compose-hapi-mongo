@@ -1,10 +1,16 @@
 web:
   extends:
-    file: compose-common.yml
-    service: web
+    file: dc-common.yml
+    service: webapp
   ports:
    - "80:3000"
   environment:
    - NODE_ENV=production
-  command: npm start
+  command: npm install && npm start
+  links:
+   - db
 
+db:
+  extends:
+    file: dc-common.yml
+    service: db

@@ -6,13 +6,13 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "dev": "./node_modules/.bin/nodemon server.js",
+    "dev": "./node_modules/.bin/nodemon -L server.js",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "nodemon": "^1.8.1"
-  }.
+  },
   "dependencies": {
     "hapi": "^12.0.1"
   }

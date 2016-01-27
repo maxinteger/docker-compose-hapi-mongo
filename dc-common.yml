@@ -1,5 +1,5 @@
 webapp:
-  build: ./web
+  build: ./
   expose:
    - "3000"
   ports:

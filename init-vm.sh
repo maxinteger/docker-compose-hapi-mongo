@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-WEB_DIR="web"
+FOLDERS=("web")
+
 PROJECT_NAME=${PWD##*/}
 
 if ! docker-machine ls | grep -q "$PROJECT_NAME"; then
@@ -14,12 +15,18 @@ if ! docker-machine ls | grep -q "$PROJECT_NAME"; then
 
         # Add VirtualBox default location to the path
         export PATH="/c/Program Files/Oracle/VirtualBox:/Applications/VirtualBox.app/Contents/MacOS:$PATH"
-        VBoxManage sharedfolder add "$PROJECT_NAME" --hostpath "$PWD/$WEB_DIR" --name "$WEB_DIR" --automount
+        for SDIR in ${FOLDERS[@]}; do
+            VBoxManage sharedfolder add "$PROJECT_NAME" --hostpath "$PWD/$SDIR" --name "$SDIR" --automount
+        done
+        # Enable symlinks in shared folder: http://www.ahtik.com/blog/fixing-your-virtualbox-shared-folder-symlink-error/
+        #VBoxManage setextradata "$PROJECT_NAME" VBoxInternal2/SharedFoldersEnableSymlinksCreate/SDIR 1
 
         docker-machine start "$PROJECT_NAME"
 
         echo -e "\n- Mount share folder\n"
-        docker-machine ssh "$PROJECT_NAME" "sudo mkdir -p $PWD/$WEB_DIR && sudo mount -t vboxsf -o uid=1000,gid=1000 $WEB_DIR $PWD/$WEB_DIR"
+        for SDIR in ${FOLDERS[@]}; do
+            docker-machine ssh "$PROJECT_NAME" "sudo mkdir -p $PWD/$SDIR && sudo mount -t vboxsf -o uid=1000,gid=1000 $SDIR $PWD/$SDIR"
+        done
     fi
 fi
 
